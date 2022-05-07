@@ -32,11 +32,14 @@ function getGrid(size = 16) {
     const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => cell.setAttribute('style', cellHeight));
     cells.forEach(cell => cell.addEventListener('mouseover', () => {
-        cell.style['background-color'] = 'aqua';
+        cell.style['background-color'] = getRandomColor();
         cell.style.transition = '.5s'
     }))
 }
-    //cells.forEach(cell => cell.addEventListener('mouseout', () => cell.setAttribute('style', 'background-color: white; transition: .5s;')))
+function getRandomColor() {
+    const random = () => Math.floor(Math.random() * 256);
+    return ('rgb(' + random() + ', ' + random() + ', ' + random() + ')').toString();
+}
 
 
 getGrid();
