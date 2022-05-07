@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 960px;
+    height: 960px;
+}
+.cell {
+    background-color: rgb(116, 116, 116);
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    flex: 1;
+}
+.row-container {
+    display: flex;
+    width: 960px;
+    height: auto;
+    border-right: 1px solid black;
+}
+#r0 {
+    border-top: 1px solid black;
+}
+button {
+    height: 35px;
+    width: 90px;
+    margin: 30px;
+}
+html {
+    background-color: rgb(56, 56, 56);
+}
