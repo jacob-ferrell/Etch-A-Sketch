@@ -13,24 +13,37 @@ body {
 }
 .cell {
     background-color: rgb(116, 116, 116);
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
+    border-left: 1px solid rgb(190, 190, 190);
+    border-bottom: 1px solid rgb(190, 190, 190);
     flex: 1;
 }
 .row-container {
     display: flex;
     width: 960px;
     height: auto;
-    border-right: 1px solid black;
+    border-right: 1px solid rgb(190, 190, 190);
 }
 #r0 {
-    border-top: 1px solid black;
+    border-top: 1px solid rgb(190, 190, 190);
 }
 button {
-    height: 35px;
-    width: 90px;
+    border:2px solid rgb(190, 190, 190);
+    color:rgb(190, 190, 190);
+    font-weight: bold;
+    font-size: large;
+    
+    border-radius: 15px;
+    background-color: rgb(56, 56, 56);
+    height: 40px;
+    width: 160px;
     margin: 30px;
+}
+button:hover {
+    background: rgb(116, 116, 116);
 }
 html {
     background-color: rgb(56, 56, 56);
+}
+.darken {
+    filter: brightness(0.90);
 }
