@@ -18,49 +18,49 @@ body.appendChild(gridContainer);
 //create booleans for random mode and shade mode, initialized to false
 var isRandom = false;
 var isShade = false;
+
+const originalColor = {};
 //change cell background-colors to random on hover if isRandom = true
 function makeRandom() {
     isRandom = true;
     isShade = false;
+    randomMode.style.backgroundColor = 'purple';
+    shadeMode.style.backgroundColor = 'rgb(56, 56, 56)';
     let cells = document.querySelectorAll('.cell');
     cells.forEach(cell => cell.classList.add('random'));
     let randomized = document.querySelectorAll('.random');
     randomized.forEach(cell => cell.addEventListener('mouseover', () => {
         if (isRandom) {
+            originalColor[cell.id] = null;
             cell.style.filter = 'none';
             cell.style['background-color'] = getRandomColor();
             cell.style.transition = '.5s';
-        }
+        } else return;
     }))
 }
-function darken(currentColor, originalColor, id) {
-    let darkenVals = originalColor[id].match(/\d+/g).map(e => Math.round(e * .1));
-    console.log(darkenVals, originalColor)
-    let newVals = currentColor.match(/\d+/g).map((e, i) => e - darkenVals[i]);
-    return ('rgb(' + newVals[0] + ', ' + newVals[1] + ', ' + newVals[2] + ')').toString()
+function darken(currentColor) {
+    return currentColor.replace(/\d+/g, num => num - (Math.floor(num * .1)))
 }
 //make cell background-color 10% darker after each pass
 function makeShade() {
     isShade = true;
     isRandom = false;
-    const originalColor = {};
+    randomMode.style.backgroundColor = 'rgb(56, 56, 56)'
+    shadeMode.style.backgroundColor = 'purple';
+    
     let cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => {
-        
-        cell.classList.add('darkened')
-    });
-    let darkened = document.querySelectorAll('.darkened')
-    darkened.forEach(cell => cell.addEventListener('mouseover', () => {
+  
+    cells.forEach(cell => cell.addEventListener('mouseover', () => {
         if (isShade) {
+
             if (cell.style.backgroundColor) {
-            originalColor[cell.id] =  originalColor[cell.id] || cell.style['background-color'];
+            cell.style.backgroundColor = darken(cell.style.backgroundColor);
             
             } else {
-                originalColor[cell.id] = "rgb(116, 116, 116)"
-                cell.style.backgroundColor = "rgb(116, 116, 116)"
+                cell.style.backgroundColor = darken("rgb(116, 116, 116)");
             }
-            cell.style.backgroundColor = darken(cell.style.backgroundColor, originalColor, cell.id);
-        }
+           
+        } else return;
     }))
 }
 //set default background-color on hover

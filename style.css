@@ -47,7 +47,7 @@ button {
     margin: 30px;
 }
 button:hover {
-    background: rgb(116, 116, 116);
+    background-color: rgb(116, 116, 116);
 }
 html {
     background-color: rgb(56, 56, 56);
@@ -57,6 +57,6 @@ html {
     background-color: rgb(0, 0, 0);
     opacity: 0%;
 }
-
-
-
+.selected {
+    background-color: rgb(116, 116, 116);
+}
