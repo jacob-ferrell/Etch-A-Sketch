@@ -18,7 +18,7 @@ body.appendChild(gridContainer);
 //create booleans for random mode and shade mode, initialized to false
 var isRandom = false;
 var isShade = false;
-//change cell background-colors to random on hover
+//change cell background-colors to random on hover if isRandom = true
 function makeRandom() {
     isRandom = true;
     isShade = false;
@@ -33,21 +33,35 @@ function makeRandom() {
         }
     }))
 }
+function darken(currentColor, originalColor, id) {
+    let darkenVals = originalColor[id].match(/\d+/g).map(e => Math.round(e * .1));
+    console.log(darkenVals, originalColor)
+    let newVals = currentColor.match(/\d+/g).map((e, i) => e - darkenVals[i]);
+    return ('rgb(' + newVals[0] + ', ' + newVals[1] + ', ' + newVals[2] + ')').toString()
+}
 //make cell background-color 10% darker after each pass
 function makeShade() {
     isShade = true;
     isRandom = false;
-    const darkVals = {};
+    const originalColor = {};
     let cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => cell.classList.remove('random'));
-    cells.forEach(cell => cell.addEventListener('mouseover', () => {
-        console.log(cell.id)
-        darkVals[cell.id] = darkVals[cell.id] - .1 || .9;
-        console.log(darkVals);
-        cell.style.filter = 'brightness(' + darkVals[cell.id] + ')';
-        cell.style.transition = '.5s'
+    cells.forEach(cell => {
+        
+        cell.classList.add('darkened')
+    });
+    let darkened = document.querySelectorAll('.darkened')
+    darkened.forEach(cell => cell.addEventListener('mouseover', () => {
+        if (isShade) {
+            if (cell.style.backgroundColor) {
+            originalColor[cell.id] =  originalColor[cell.id] || cell.style['background-color'];
+            
+            } else {
+                originalColor[cell.id] = "rgb(116, 116, 116)"
+                cell.style.backgroundColor = "rgb(116, 116, 116)"
+            }
+            cell.style.backgroundColor = darken(cell.style.backgroundColor, originalColor, cell.id);
+        }
     }))
-    
 }
 //set default background-color on hover
 function defaultHover() {
