@@ -18,8 +18,6 @@ body.appendChild(gridContainer);
 //create booleans for random mode and shade mode, initialized to false
 var isRandom = false;
 var isShade = false;
-
-const originalColor = {};
 //change cell background-colors to random on hover if isRandom = true
 function makeRandom() {
     isRandom = true;
@@ -31,35 +29,28 @@ function makeRandom() {
     let randomized = document.querySelectorAll('.random');
     randomized.forEach(cell => cell.addEventListener('mouseover', () => {
         if (isRandom) {
-            originalColor[cell.id] = null;
             cell.style.filter = 'none';
             cell.style['background-color'] = getRandomColor();
             cell.style.transition = '.5s';
         } else return;
     }))
 }
-function darken(currentColor) {
-    return currentColor.replace(/\d+/g, num => num - (Math.floor(num * .1)))
-}
+
 //make cell background-color 10% darker after each pass
 function makeShade() {
     isShade = true;
     isRandom = false;
     randomMode.style.backgroundColor = 'rgb(56, 56, 56)'
     shadeMode.style.backgroundColor = 'purple';
-    
+    const darken = currentColor => currentColor.replace(/\d+/g, num => num - (Math.floor(num * .1)))
     let cells = document.querySelectorAll('.cell');
-  
     cells.forEach(cell => cell.addEventListener('mouseover', () => {
         if (isShade) {
-
             if (cell.style.backgroundColor) {
             cell.style.backgroundColor = darken(cell.style.backgroundColor);
-            
             } else {
                 cell.style.backgroundColor = darken("rgb(116, 116, 116)");
             }
-           
         } else return;
     }))
 }
@@ -69,9 +60,12 @@ function defaultHover() {
     isRandom = false;
     let cells = document.querySelectorAll('.cell');
     cells.forEach(cell => cell.addEventListener('mouseover', () => {
+        if (!isShade && !isRandom) {
         cell.style['background-color'] = 'black';
         cell.style.transition = '.5s'
+        }
     }))
+    
 }
 //generate grid of any size passed as argument <= 100. defaults to 16
 function getGrid(size = 16) {
@@ -96,13 +90,8 @@ function getGrid(size = 16) {
     //initialize hover color to black unless Random/Shade Mode is active
     const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => cell.setAttribute('style', cellHeight));
-   /* if (isRandom) {
-        makeRandom();
-    } else if (isShade) {
-        makeShade();
-    } else {
-        defaultHover();
-        */
+    //set default color to black
+    defaultHover();
     } 
 function getRandomColor() {
     const random = () => Math.floor(Math.random() * 256);
@@ -112,6 +101,8 @@ function getRandomColor() {
 
 getGrid();
 newGrid.addEventListener('click', () => {
+    shadeMode.style.backgroundColor = 'rgb(56, 56, 56)';
+    randomMode.style.backgroundColor = 'rgb(56, 56, 56)';
     const rows = document.querySelectorAll('.row-container');
     rows.forEach(row => row.remove());
     getGrid(prompt('Enter new grid size: \n(Maximum size = 100)'));
